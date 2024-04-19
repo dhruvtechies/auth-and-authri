@@ -1,0 +1,6 @@
+{
+	"create-message": "create-message",
+	"login-message": "login-message",
+	"find-message": "find-message",
+	"update-message": "update-message"
+}
