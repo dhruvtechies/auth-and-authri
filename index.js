@@ -5,6 +5,8 @@ const cookieParser =require("cookie-parser");
 require('dotenv').config(); //////////////env file ko lene ke liye
 
 
+const sendMail=require("./controller/nodemailer") //require nodemailer file
+
 const port =7070;
 
 const app =express();
@@ -27,7 +29,10 @@ app.use (i18n.init);
 // use jsonformate data
 
 app.use (express.json());
+
 app.use("/",userRoutes);
+
+app.post('/send-mail',sendMail);  //for routes of nodemailer
 
 // syn the Sequelize
 
