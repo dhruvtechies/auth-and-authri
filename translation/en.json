@@ -2,5 +2,7 @@
 	"create-message": "create-message",
 	"login-message": "login-message",
 	"find-message": "find-message",
-	"update-message": "update-message"
+	"update-message": "update-message",
+	"prod_update_message": "prod_update_message",
+	"delete-message": "delete-message"
 }
