@@ -17,9 +17,19 @@ const userData = sequelize.define('users', {
     allowNull: false,
   },
   address:{
-    type:DataTypes.NUMBER,
+    type:DataTypes.STRING,
     allowNull: false,
+  },
+  otp:{
+    type:DataTypes.STRING,
+    allowNull:true,
+  },
+  Expiry:{
+    type:DataTypes.DATE,
+    allowNull:true,
   }
+
 });
+  
 
 module.exports = userData;

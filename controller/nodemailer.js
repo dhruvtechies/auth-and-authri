@@ -2,9 +2,9 @@ const nodemailer = require("nodemailer");
 const Mailgen = require("mailgen");
 const bcrypt = require('bcrypt');
 
-const sendMail = async (email, token) => {
+const sendMail = async (email, otp) => {
     // Extracting name and email from request body
-    // Rename email variable to userEmail
+  
 
     // Create a nodemailer transporter
     const transporter = nodemailer.createTransport({
@@ -33,9 +33,9 @@ const sendMail = async (email, token) => {
           instructions: "To express my regret, please click the link below:", // Instructions for the action
           button: {
             color: "#FF3838", // Color of the button
-            text: "forget password", // Text displayed on the button
+            text: otp, // Text displayed on the button
            // link: `http://localhost:/resetPassword?token=${token}`// Link the button directs to
-           link: `http://localhost:7070/resetPassword?token=${token}`// Link the button directs to
+          //  link: `http://localhost:7070/resetPassword?token=${token}`// Link the button directs to
 
           }
         },
