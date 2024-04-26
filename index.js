@@ -2,6 +2,7 @@ const express=require("express");
 const userRoutes =require("./routes/Routes");
 const sequelize =require("./config/sequlize");
 const cookieParser =require("cookie-parser");
+const crons =require("./cron/Crons");
 require('dotenv').config(); //////////////env file ko lene ke liye
 
 
@@ -46,7 +47,7 @@ sequelize
 });
  
 // listening the port 
-
+crons;
 app.listen(port, () => {
 console.log(`Server is running on port ${port}`);
 });
