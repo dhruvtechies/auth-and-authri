@@ -1,1 +1,14 @@
-{}
+{
+    "create-message":"संदेश बनायें",
+    "login-message":"लॉगिन सफलता पूरबक हो गया",
+    "find-message": "संदेश खोजा जा रहा है",
+    "update-message":"संदेश अपडेट किया गया",
+    "prod_update_message":"पासवर्ड अपडेट हो गया",
+	"delete-message": "मैसेज डिलीट किया गया"
+
+}
+   
+
+
+
+
