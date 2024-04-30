@@ -25,6 +25,7 @@ func
 
 const LoginValidate=[
     body('email').notEmpty().isEmail().normalizeEmail().withMessage("Input correct mail"),
-body('password').notEmpty().isLength({ min: 6 }).withMessage("Incorrect Password")
+body('password').notEmpty().isLength({ min: 6 }).withMessage("Incorrect Password"),
+func
 ]
 module.exports = {SignupValidator,LoginValidate}

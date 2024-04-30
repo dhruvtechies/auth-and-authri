@@ -7,11 +7,6 @@ const sendMail = require("./nodemailer");
 const bcrypt = require("bcrypt")
 const crypto = require('crypto');
 
-//  for validator 
-
-//const { body, validationResult } = require('express-validator');
-
-// creation of token
 
 const createToken = (user) => {
   return jwt.sign({ user }, process.env.secreatkey, { expiresIn: "1h" });
@@ -22,21 +17,7 @@ const UserRegistration = async (req, res) => {
   try {
     const { name, email, password, address } = req.body;
 
-      //  // Validate user input
-
-      //  const errors = validationResult(req);
-      //  if (!errors.isEmpty()) {
-      //    return res.status(400).json({ error: errors.array()[0].msg });
-      //  }
-
-//for making password strong
-
-// const passwordStr = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z])$/;
-// if (!passwordStr.test(password)) {
-//   return res.status(400).json({ error: 'Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character.' });
-// }
-
-  // Check if the email is already registered for validator
+      
            
     const existingUser = await userData.findOne({  where:{email} });
     if (existingUser) {
@@ -68,27 +49,23 @@ const UserLogin = async (req, res) => {
     const { email, password } = req.body;
 
 
-    // Validate user input
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+    ``
       
     const user = await userData.findOne({ where: { email } });
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({message:res.__( "Invalid email or password")});
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message:res.__( "Invalid email or password") });
     }
 
     const token = createToken(user.id);
 
     res.cookie('token', token, { httpOnly: true });
-    res.status(200).json({ user, token });
+    res.status(200).json({ user, token ,message:res.__("login-message")});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -160,12 +137,7 @@ const forgetPassword = async (req, res) => {
     }
 
     const otp = crypto.randomInt(100000, 999999).toString();
-    // const timeExpire=new Date();
-    // timeExpire.setMinutes(timeExpire.getMinutes()+10);
-    // const otpHash=await bcrypt.hash(otp,10);// OTP expires in 1 min
-
-    //     // Save OTP in the database or in memory cache for verification later
-    //     await exitUser.update({ otp:otpHash, Expiry: timeExpire });  
+    
 
     const Expiry = new Date();  //Expiry bo bala dal diya jo database me dal rakha ha
     Expiry.setMinutes(Expiry.getMinutes() + 10);
