@@ -1,10 +1,21 @@
 const express = require('express');
 const userController = require('../controller/Controller.js');
- const authorization = require('../middleware/Authorization.js');
+const authorization = require('../middleware/Authorization.js');
 const router = express.Router();
+const {SignupValidator,LoginValidate} = require('../middleware/validator.js')
 
-router.post('/usersign', userController.UserRegistration);
-router.post('/userlogin', userController.UserLogin);
+
+
+//for validator
+const userData = require('../modal/Modal.js');
+
+router.post('/usersign',SignupValidator ,userController.UserRegistration);
+
+
+
+
+router.post('/userlogin',LoginValidate,userController.UserLogin);
+
 
 
 // Protected routes requiring authorization middleware

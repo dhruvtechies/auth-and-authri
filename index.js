@@ -5,6 +5,10 @@ const cookieParser =require("cookie-parser");
 const crons =require("./cron/Crons");
 require('dotenv').config(); //////////////env file ko lene ke liye
 
+// express validator
+
+const { body, validationResult } = require('express-validator');
+
 
 const sendMail=require("./controller/nodemailer") //require nodemailer file
 
@@ -34,6 +38,30 @@ app.use (express.json());
 app.use("/",userRoutes);
 
 app.post('/send-mail',sendMail);  //for routes of nodemailer
+
+//for validator
+
+app.post('/submit', [
+
+ 
+
+  body('email').isEmail().normalizeEmail(),
+  body('password').isLength({ min: 6 }),
+], (req, res) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  // If no errors, process the data
+  const { email, password } = req.body;
+  // Process the data further...
+});
+
+
+
+
 
 // syn the Sequelize
 

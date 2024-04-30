@@ -6,6 +6,11 @@ const jwt = require("jsonwebtoken");
 const sendMail = require("./nodemailer");
 const bcrypt = require("bcrypt")
 const crypto = require('crypto');
+
+//  for validator 
+
+//const { body, validationResult } = require('express-validator');
+
 // creation of token
 
 const createToken = (user) => {
@@ -16,6 +21,29 @@ const createToken = (user) => {
 const UserRegistration = async (req, res) => {
   try {
     const { name, email, password, address } = req.body;
+
+      //  // Validate user input
+
+      //  const errors = validationResult(req);
+      //  if (!errors.isEmpty()) {
+      //    return res.status(400).json({ error: errors.array()[0].msg });
+      //  }
+
+//for making password strong
+
+// const passwordStr = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z])$/;
+// if (!passwordStr.test(password)) {
+//   return res.status(400).json({ error: 'Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character.' });
+// }
+
+  // Check if the email is already registered for validator
+           
+    const existingUser = await userData.findOne({  where:{email} });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email is already registered' });
+    }
+
+
     // Hash the password before saving it to the database
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -35,7 +63,17 @@ const UserRegistration = async (req, res) => {
 
 const UserLogin = async (req, res) => {
   try {
+
+    
     const { email, password } = req.body;
+
+
+    // Validate user input
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+      
     const user = await userData.findOne({ where: { email } });
 
     if (!user) {
