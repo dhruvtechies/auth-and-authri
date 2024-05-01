@@ -1,4 +1,4 @@
-//const {where }=require("sequelize" )///////////////// where?
+
 
 const userData = require("../modal/Modal");  //userData comes from model
 require('dotenv').config()
@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const sendMail = require("./nodemailer");
 const bcrypt = require("bcrypt")
 const crypto = require('crypto');
-
 
 const createToken = (user) => {
   return jwt.sign({ user }, process.env.secreatkey, { expiresIn: "1h" });
@@ -28,12 +27,14 @@ const UserRegistration = async (req, res) => {
     // Hash the password before saving it to the database
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await userData.create({ name, email, password: hashedPassword, address });
+    const id = Date.now().toString(10); //for making id unique
+
+    const newUser = await userData.create({id, name, email, password: hashedPassword, address });
 
     // Generate JWT token
     const token = createToken(email);
     res.cookie('token', token, { httpOnly: true });
-    res.status(201).json({ user: newUser, token });
+    res.status(201).json({ user: newUser, token ,message:res.__("create-message")});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
