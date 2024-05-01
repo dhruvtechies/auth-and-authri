@@ -23,7 +23,7 @@ router.get('/user/:id', authorization, userController.getUserById);
 router.put('/user/:id', authorization, userController.updateUser);
 router.delete('/user/:id', authorization, userController.deleteUser);
 
-router.get('/user', userController.HomeController);
+router.get("/", userController.Home);
 
 
 //routes for reset and forget password
@@ -31,5 +31,7 @@ router.get('/user', userController.HomeController);
 router.post('/forgotPassword',userController.forgetPassword);
 
 router.patch('/reset',userController.ResetPass);
+
+
 
 module.exports = router;

@@ -27,6 +27,7 @@ const i18n =new I18n({
     locales: ['en','hi'],
     directory: path.join(__dirname,"translation"),
     defaultLocale : 'en',
+    objectNotation: true
 });
 
 app.use (i18n.init);

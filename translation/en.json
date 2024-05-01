@@ -1,10 +1,54 @@
 {
-	"create-message": "Registration successful",
-	"login-message": "login-message",
-	"find-message": "find-message",
-	"update-message": "update-message",
-	"prod_update_message": "prod_update_message",
-	"delete-message": "delete-message",
-	
-	"invalid email or password" :"Invalid email or password"
+	 
+	"MESSAGE": "Hello",
+    "not_Found": "Not found on our Api",
+
+	"signup": {
+        "error1": "Email is already registered",
+		"error2": "Can't Signup",
+        "message1": "User Signup Successfull"
+},
+"login": {
+	    "error1": "Invalid email or password",
+        "error2": " Login failed",
+        "message1": "Login Successfull"
+
+},
+"update": {
+	"error1": "User not found",
+	"error2": " update failed",
+	"message1": "update-successful"
+
+},
+"delete": {
+	"error1": "User not found",
+    "error2": " delete failed",
+    "message1": "delete-successful"
+},
+
+"forget": {
+	"error1": "username doesnt exist",
+    "error2": " failed to send otp",
+    "message1": "otp sent successfully"
+},
+
+"reset": {
+	"error1": "Invalid user",
+    "error2": "Invalid or expired OTP",
+    "error3": "Resetpassword failed",
+    "message1": "Password successfully updated"
+},
+"getuser":{
+	"error1": "User not found",
+	"message1":"User found"
+},
+"validator": {
+	"error1": "Name should not be empty",
+	"error2": "Must be a valid email address",
+	"error3": "Password must be at least 6 characters long",
+	"error4": "Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character",
+	"error5": "Address Should Be Atleast Ten Character",
+	"error6": "Incorrect Password"
+}
+
 }

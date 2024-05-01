@@ -20,7 +20,9 @@ const UserRegistration = async (req, res) => {
            
     const existingUser = await userData.findOne({  where:{email} });
     if (existingUser) {
-      return res.status(400).json({ error: 'Email is already registered' });
+   
+      return res.status(400).json({ error: res.__("signup.error1") });
+
     }
 
 
@@ -34,9 +36,9 @@ const UserRegistration = async (req, res) => {
     // Generate JWT token
     const token = createToken(email);
     res.cookie('token', token, { httpOnly: true });
-    res.status(201).json({ user: newUser, token ,message:res.__("create-message")});
+    res.status(201).json({ user: newUser, token ,message:res.__("signup.message1")});
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: res.__("signup.error2") });
   }
 };
 
@@ -50,25 +52,25 @@ const UserLogin = async (req, res) => {
     const { email, password } = req.body;
 
 
-    ``
+    
       
     const user = await userData.findOne({ where: { email } });
 
     if (!user) {
-      return res.status(401).json({message:res.__( "Invalid email or password")});
+      return res.status(401).json({message:res.__( "login.error1")});
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message:res.__( "Invalid email or password") });
+      return res.status(401).json({ message:res.__( "login.error1") });
     }
 
     const token = createToken(user.id);
 
     res.cookie('token', token, { httpOnly: true });
-    res.status(200).json({ user, token ,message:res.__("login-message")});
+    res.status(200).json({ user, token ,message:res.__("login.message1")});
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: res.__("login.error2") });
   }
 };
 
@@ -77,27 +79,30 @@ const UserLogin = async (req, res) => {
 
 
 //  userget
+
 const getUserById = async (req, res) => {
   try {
     const user = await userData.findByPk(req.params.id);
-    res.status(201).json({ user, message: res.__('find-message') });
+    res.status(201).json({ user, message: res.__('getuser.message1') });
   } catch (error) {
     res.status(500).json({
-      error: error.message
+      error: res.__("getuser.error1")
     });
   }
 };
+
+//updateuser
 
 const updateUser = async (req, res) => {
   try {
     const { name, email, password, address } = req.body;
     const updatedUser = await userData.update({ name, email, password, address }, { where: { id: req.params.id } });
     if (!updatedUser) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: res.__("update.error1") });
     }
-    res.status(200).json({ updatedUser, message: res.__('update-message') });
+    res.status(200).json({ updatedUser, message: res.__('update.message1') });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: res.__(update.error2) });
   }
 };
 
@@ -106,16 +111,16 @@ const deleteUser = async (req, res) => {
   try {
     const deletedUser = await userData.destroy({ where: { id: req.params.id } });
     if (!deletedUser) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "delete.error1" });
     }
-    res.status(200).json({ message: res.__('delete-message') });
+    res.status(200).json({ message: res.__('delete.message1') });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: res.__('delete.error2') });
   }
 };
-const HomeController = async (req, res) => {
+const Home = async (req, res) => {
   {
-    res.send({ id: 1, name: res.__('MESSAGE'), response: res.__('home') })
+    res.send({ id: 1, name: res.__('MESSAGE'), response: res.__( "not_Found") })
   }
 }
 
@@ -134,7 +139,7 @@ const forgetPassword = async (req, res) => {
   try {
     const exitUser = await userData.findOne({ where: { email } });
     if (!exitUser) {
-      return res.status(400).json({ message: "username doesnt exist" })
+      return res.status(400).json({ message:res.__("forget.error1")  })
     }
 
     const otp = crypto.randomInt(100000, 999999).toString();
@@ -148,10 +153,10 @@ const forgetPassword = async (req, res) => {
     await exitUser.update({ otp: otpHash, Expiry });
 
     await sendMail(email, otp);
-    res.json({ message: "otp sent successfully" });
+    res.json({ message: res.__("forget.message1") });
   } catch (error) {
     console.error("error sending email:", error);
-    res.status(500).json({ error: "failed to send otp " });
+    res.status(500).json({ error: res.__("forget.error2 ") });
   }
 }
 
@@ -164,7 +169,7 @@ const ResetPass = async (req, res) => {
     const user = await userData.findOne({ where: { email } });
 
     if (!user) {
-      return res.status(404).json({ message: "Invalid user" });
+      return res.status(404).json({ message: res.__("reset.error1") });
     }
     console.log(user.otp)
     if (user.otp !== null) {
@@ -172,19 +177,19 @@ const ResetPass = async (req, res) => {
       if (otpMatch && new Date() < user.Expiry) {
         const hashedPass = await bcrypt.hash(password, 10);
         await user.update({ password: hashedPass, otp: null, Expiry: null });
-        return res.status(200).json({ message: "Password successfully updated" });
+        return res.status(200).json({ message: res.__("reset.message1") });
       }
     }
-    return res.status(400).json({ message: "Invalid or expired OTP" });
+    return res.status(400).json({ message:res.__("reset.error2") });
 
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: res.__("reset.error3") });
   }
 };
 
 
 
-module.exports = { UserRegistration, UserLogin, HomeController, getUserById, updateUser, deleteUser, ResetPass, forgetPassword };
+module.exports = { UserRegistration, UserLogin,Home, getUserById, updateUser, deleteUser, ResetPass, forgetPassword };
 
 
 
